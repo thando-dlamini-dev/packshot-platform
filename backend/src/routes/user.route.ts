@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { getUserById } from "../controllers/user.controller";
+import {getAllUsers, getUserById, getUserInfo} from "../controllers/user.controller";
 
 const router = Router();
 
-router.get("/:id", getUserById)
+//Mid-Auth Routes
+router.get("/:id", getUserById);
+router.get("/", getAllUsers);
+router.patch("/", getUserById);
+
+//Post-Auth Routes
+router.get("/me/:id", getUserInfo);
 
 export default router;

@@ -10,6 +10,7 @@ const users = pgTable("users", {
 
     //User Profile Info
     userName: varchar("username", { length: 255 }),
+    businessNAme: varchar("businessNAme", { length: 255 }).unique(),
     avatarUrl: varchar("avatar_url", { length: 255 }),
 
     ...timestamps

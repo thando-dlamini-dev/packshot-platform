@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('', userRoute)
+app.use('api/users', userRoute)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

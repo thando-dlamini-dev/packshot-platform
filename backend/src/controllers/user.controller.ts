@@ -19,7 +19,8 @@ export const getUserById = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             success: true,
-            user
+            user,
+            message: "User fetched successfully"
         });
     }
     catch (error) {
@@ -33,19 +34,39 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
-        const user = await db.select().from(users)
+        const userList = await db.select().from(users)
         if(!users){
             return res.status(404).json({
                 success: false,
                 error: "Users not found"
             })
         }
+
+        return res.status(200).json({
+            success: true,
+            users: userList,
+            message: "Successfully retrieved all users"
+        })
     }
     catch (error) {
         console.log(error);
         return res.status(500).json({
             success: false,
             error: "Error while trying to retrieve all users"
+        })
+    }
+}
+
+//get user info without including sensitive fields like passwords and ids
+export const getUserInfo = async (req: Request, res: Response) => {
+    try {
+
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error: "Error while trying to retrieve user info"
         })
     }
 }
