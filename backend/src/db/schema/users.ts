@@ -1,5 +1,7 @@
-import { pgTable, serial, varchar } from "drizzle-orm/pg-core"
+import {pgEnum, pgTable, serial, varchar} from "drizzle-orm/pg-core"
 import { timestamps } from "../columns.helpers";
+
+export const roleEnum = pgEnum("role", ["customer", "admin"]);
 
 const users = pgTable("users", {
     id: serial().primaryKey(),//database id
@@ -12,6 +14,8 @@ const users = pgTable("users", {
     userName: varchar("username", { length: 255 }),
     businessNAme: varchar("business_name", { length: 255 }).unique(),
     avatarUrl: varchar("avatar_url", { length: 255 }),
+
+    role: roleEnum("role"),
 
     ...timestamps
 })
