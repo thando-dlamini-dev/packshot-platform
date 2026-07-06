@@ -23,7 +23,7 @@ export const globalLimiter = rateLimit({
     },
 
     store: new RedisStore({
-        sendCommand: async (...args: string[]) => redisClient.sendCommand(...args)
+        sendCommand: async (...args: string[]) => redisClient.
     }),
 
     message: {
