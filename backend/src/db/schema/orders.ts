@@ -1,5 +1,7 @@
 import {pgTable, bigint, uuid, pgEnum} from "drizzle-orm/pg-core";
 import {timestamps} from "../columns.helpers";
+import {serial} from "drizzle-orm/pg-core";
+import categories from "./categories";
 
 // 1. Database gets clean, short, unchangeable keys (max efficiency)
 export const statusEnum = pgEnum("status", [
@@ -39,8 +41,8 @@ export const statusLookup = {
 } as const;
 
 const orders = pgTable("orders", {
-    id: bigint('id', { mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+    userId: serial().primaryKey(),
     publicId: uuid('public_id').defaultRandom().notNull().unique(),
-    status: statusEnum("status"),
+    category: categories.name,
     ...timestamps
 })

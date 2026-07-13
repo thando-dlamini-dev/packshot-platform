@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv"
 import userRoute from "./routes/user.route"
 import { globalLimiter } from "./middleware/rateLimitMiddleware";
+import blogRoute from "./routes/blog.route";
 
 
 dotenv.config()
@@ -30,8 +31,8 @@ app.use((req, res, next) => {
 });
 
 //Routes
-app.use('api/users', userRoute)
-
+app.use('/api/users', userRoute)
+app.use('/api/blogs', blogRoute)
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
     console.log(`Started at ${Date()}`);

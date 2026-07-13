@@ -5,13 +5,12 @@ export const postStatusEnum = pgEnum("post_status", ["draft", "published", "arch
 
 const blogs = pgTable("blogs",  {
     id: serial().primaryKey(),
-    title: varchar("varchar", { length: 50 }).notNull(),
+    title: varchar("title", { length: 255 }).notNull().unique(),
+    slug: varchar("slug", { length: 255 }).notNull().unique(),
     content: text("content").notNull(),
     summary: text("summary").notNull(),
-    metaDescription: text("meta-description").notNull(),
-    status: postStatusEnum(""),
-    imgUrl: varchar("varchar", { length: 50 }).notNull(),
-    published: timestamp({ withTimezone: true }),
+    status: postStatusEnum("status").default("draft"),
+    imgUrl: varchar("img_url", { length: 500 }),
     ...timestamps
 });
 
