@@ -9,7 +9,7 @@ export const getUserById = async (req: Request, res: Response) => {
         const userId = Number(id)//convert id to number
         const user = await db.select().from(users).where(eq(users.id, userId))
 
-        //throw error if user is not found
+        //return error if user is not found
         if(!user){
             return res.status(404).json({
                 success: false,
@@ -57,10 +57,29 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 }
 
-//get user info without including sensitive fields like passwords and ids
+//get user info without exposing sensitive fields like passwords and ids
 export const getUserInfo = async (req: Request, res: Response) => {
     try {
+        const { id }  = req.params;
+        const userId = Number(id);
+        const user = await db.select({
+            userName: users.userName,
+            email: users.email,
+            businessName: users.userName,
+            avatarUrl: users.avatarUrl,
+        }).from(users).where(eq(users.id, userId))
 
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            user,
+        })
     }
     catch (error) {
         console.log(error);
