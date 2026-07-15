@@ -4,7 +4,7 @@ import {timestamps} from "../columns.helpers";
 const categories = pgTable("categories", {
     id: serial().primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
-    isActive: boolean("is_active").notNull().default(false),
+    isActive: boolean("is_active").notNull().default(true),
     ...timestamps
 })
 

@@ -1,10 +1,10 @@
-import {pgTable, bigint, uuid, pgEnum} from "drizzle-orm/pg-core";
+import {pgTable, uuid, pgEnum, integer} from "drizzle-orm/pg-core";
 import {timestamps} from "../columns.helpers";
 import {serial} from "drizzle-orm/pg-core";
 import categories from "./categories";
+import users from "./users";
 
-// 1. Database gets clean, short, unchangeable keys (max efficiency)
-export const statusEnum = pgEnum("status", [
+export const statusEnum = pgEnum("status_enum", [
     "pending_payment",
     "reviewing_assets",
     "modeling",
@@ -41,8 +41,11 @@ export const statusLookup = {
 } as const;
 
 const orders = pgTable("orders", {
-    userId: serial().primaryKey(),
     publicId: uuid('public_id').defaultRandom().notNull().unique(),
-    category: categories.name,
+    userId: integer().notNull().unique().references(() => users.id),
+    categoryId: integer("category_id").notNull().references(() => categories.id, { onDelete: "restrict" }),
+    status: statusEnum("status"),
     ...timestamps
 })
+
+export default orders
