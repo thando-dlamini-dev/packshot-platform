@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from "cors";
 import dotenv from "dotenv"
+import morgan from "morgan"
 import userRoute from "./routes/user.route"
 import { globalLimiter } from "./middleware/rateLimitMiddleware";
 import blogRoute from "./routes/blog.route";
@@ -11,6 +12,9 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 
 const app = express();
+
+// Logging: Log HTTP requests in 'dev' format
+app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(cors());

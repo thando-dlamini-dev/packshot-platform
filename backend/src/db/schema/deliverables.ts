@@ -4,9 +4,9 @@ import orders from "./orders"
 
 const resolutionEnum = pgEnum("resolution_enum", ["1920x1080", "3840x2160"])
 
-const deliverables = pgTable("", {
+const deliverables = pgTable("deliverables", {
     id: serial().primaryKey(),
-    orderId: integer("order_id").notNull().references(() => orders.publicId, { onDelete: "cascade" }),
+    orderId: integer("order_id").notNull().references(() => orders.orderId, { onDelete: "cascade" }),
     name: varchar("name").notNull().unique(),
     imgUrl: varchar("imgUrl").notNull().unique(),
     resolution: resolutionEnum("resolution").notNull(),
