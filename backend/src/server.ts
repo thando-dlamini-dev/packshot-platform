@@ -5,6 +5,7 @@ import morgan from "morgan"
 import userRoute from "./routes/user.route"
 import { globalLimiter } from "./middleware/rateLimitMiddleware";
 import blogRoute from "./routes/blog.route";
+import authRoute from "./routes/auth.route";
 
 
 dotenv.config()
@@ -37,6 +38,8 @@ app.use((req, res, next) => {
 //Routes
 app.use('/api/users', userRoute)
 app.use('/api/blogs', blogRoute)
+app.use('/api/auth', authRoute)
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
     console.log(`Started at ${Date()}`);

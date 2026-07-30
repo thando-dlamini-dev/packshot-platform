@@ -8,10 +8,15 @@ export const googleAuth = passport.authenticate("google", {
     session: false
 })
 
-export const googleCallback = passport.authenticate("google", {
-    failureRedirect: "/login",
-    session: false
-})
+export const googleCallback = async (req: Request, res: Response) => {
+        passport.authenticate("google", {
+        failureRedirect: `${process.env.FRONTEND_URL}/login`,
+        session: false
+    })
+
+    //Redirect to home page after successful Login
+    res.redirect(`${process.env.FRONTEND_URL}`);
+}
 
 export const jwtAuth = ( req: Request,  res: Response ) => {
     if (!req.user) {
@@ -20,8 +25,7 @@ export const jwtAuth = ( req: Request,  res: Response ) => {
 
     const token = jwt.sign(
         {
-            id: req.user.id,
-            email: req.user.email
+            user: req.user,
         },
         process.env.JWT_SECRET!,
         { expiresIn: "1h"}
