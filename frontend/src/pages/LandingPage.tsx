@@ -3,7 +3,7 @@ import Footer from "../components/Footer.tsx"
 
 const LandingPage = () => {
     return (
-        <main className='overflow-hidden'>
+        <main className='overflow-hidden bg-black'>
             <HeroSection/>
             <Footer/>
         </main>
