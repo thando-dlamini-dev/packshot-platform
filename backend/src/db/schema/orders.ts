@@ -41,7 +41,7 @@ export const statusLookup = {
 } as const;
 
 const orders = pgTable("orders", {
-    orderId: uuid('public_id').defaultRandom().notNull().unique(),
+    orderId: uuid('order_id').notNull().unique().defaultRandom(),
     userId: integer().notNull().unique().references(() => users.id),
     categoryId: integer("category_id").notNull().references(() => categories.id, { onDelete: "restrict" }),
     status: statusEnum("status"),

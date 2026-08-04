@@ -6,7 +6,9 @@ import users from "../db/schema/users";
 
 export const createBlog = async (req: Request, res: Response) => {
     try{
-        const { title, slug, content, summary } = req.body
+        const { title, content, summary } = req.body
+
+        const slug = title.replaceAll(" ", "-").toLowerCase();
 
         if (!title || !content || !summary) {
             return res.status(404).json({

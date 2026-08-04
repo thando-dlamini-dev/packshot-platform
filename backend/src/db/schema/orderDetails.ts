@@ -4,7 +4,7 @@ import {timestamps} from "../columns.helpers";
 
 const orderDetails = pgTable("order_details", {
     id: uuid("id").defaultRandom().notNull().unique(),
-    orderID: uuid().notNull().references(() => orders.orderId, {onDelete: "cascade"}),
+    orderId: uuid("order_id").notNull().references(() => orders.orderId, {onDelete: "cascade"}),
 
     //Product Dimensions
     widthMm: integer("width_mm"),
