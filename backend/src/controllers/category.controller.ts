@@ -55,7 +55,7 @@ export const createCategory = async (req: Request, res: Response) => {
 export const updateCategory = async (req: Request, res: Response) => {
     try{
         const {userRole} = req.params;
-        const {name, isActive} = req.body;
+        const {name, isActive} = req.body ;
 
         if (userRole !== "admin") {
             res.status(401).json({

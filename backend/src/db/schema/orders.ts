@@ -1,17 +1,20 @@
-import {pgTable, uuid, pgEnum, integer} from "drizzle-orm/pg-core";
+import {pgTable, uuid, pgEnum, integer, doublePrecision, varchar} from "drizzle-orm/pg-core";
 import {timestamps} from "../columns.helpers";
 import {serial} from "drizzle-orm/pg-core";
 import categories from "./categories";
 import users from "./users";
 
 export const statusEnum = pgEnum("status_enum", [
-    "pending_payment",
-    "reviewing_assets",
-    "modeling",
-    "rendering",
-    "completed",
-    "rejected"
+    "submitted",
+    "in_review",
+    "quoted",
+    "accepted",
+    "in_progress",
+    "delivered",
+    "cancelled",
 ]);
+
+//submitted → in_review → quoted → accepted → in_progress → delivered
 
 export const statusLookup = {
     pending_payment: {
@@ -44,7 +47,9 @@ const orders = pgTable("orders", {
     orderId: uuid('order_id').notNull().unique().defaultRandom(),
     userId: integer().notNull().unique().references(() => users.id),
     categoryId: integer("category_id").notNull().references(() => categories.id, { onDelete: "restrict" }),
-    status: statusEnum("status"),
+    businessName: varchar("business_name", { length: 255 }).notNull(),
+    status: statusEnum("status").default("submitted"),
+    price: doublePrecision("price_mm"),
     ...timestamps
 })
 
