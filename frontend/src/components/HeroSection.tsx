@@ -29,7 +29,7 @@ const HeroSection = () => {
             imgUrl: "dZKAt.jpg",
         },{
             title: "",
-            imgUrl: "Quell7.png"
+            imgUrl: "Quell10.png"
         },
     ]
 
@@ -46,7 +46,7 @@ const HeroSection = () => {
     return (
         <section className="h-screen px-20 overflow-clip bg-black flex mt-25 lg:pt-0 lg:flex-row items-center justify-center">
             <div className="w-full h-full overflow-hidden rounded-lg">
-                <motion.img className="w-full " src={`/${cardItems[currentIndex].imgUrl}`} alt=""/>
+                <motion.img className="w-full " src={`/${cardItems[cardItems.length-1].imgUrl}`} alt=""/>
             </div>
         </section>
     )
