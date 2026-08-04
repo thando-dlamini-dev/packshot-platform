@@ -4,7 +4,8 @@ import orders from "../db/schema/orders"
 
 export const createOrder = async (req: Request, res: Response) => {
     try{
-        const { userId, categoryId } = req.params
+        const { userId } = req.params
+        const {categoryId} = req.body
 
         const order = await db.insert(orders).values({
             userId: Number(userId),
