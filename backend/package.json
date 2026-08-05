@@ -11,12 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "cloudinary": "^2.10.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.45.2",
+    "drizzle-orm": "^1.0.0-rc.4",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "jsonwebtoken": "^9.0.3",
@@ -26,6 +28,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.22.0",
+    "postgres": "^3.4.9",
     "rate-limit-redis": "^5.0.0"
   },
   "devDependencies": {
@@ -37,7 +40,7 @@
     "@types/passport-google-oauth20": "^2.0.17",
     "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.20.0",
-    "drizzle-kit": "^0.31.10",
+    "drizzle-kit": "^1.0.0-rc.4",
     "i": "^0.3.7",
     "tsx": "^4.22.4"
   }

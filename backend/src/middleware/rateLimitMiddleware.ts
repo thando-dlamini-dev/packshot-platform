@@ -52,7 +52,7 @@ export const authLimiter = async (req:Request, res:Response, next: NextFunction)
     if (!success) {
         return res.status(429).json({
             status: 429,
-            error: "Too many requests, please try again later.",
+            message: "Too many requests, please try again later.",
         });
     }
 

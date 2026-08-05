@@ -7,8 +7,10 @@ export default defineConfig({
     dialect: "postgresql",
     schema: "./src/db/schema/*.ts",
     out: "./drizzle",
+    schemaFilter: ["public"],
+    extensionsFilters: ["pg_stat_statements" as any],
     dbCredentials: {
-        url: process.env.DATABASE_URL!,
+        url: process.env.SUPABASE_DATABASE_URL!,
     },
 });
 
