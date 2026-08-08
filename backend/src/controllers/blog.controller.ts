@@ -29,11 +29,11 @@ export const createBlog = async (req: Request, res: Response) => {
             message: "Successfully created blog"
         })
     }
-    catch(err){
-        console.log(err);
+    catch(err: any){
+        console.log(err.detail);
         return res.status(500).json({
             success: false,
-            message: "Error while trying to create blog"
+            message: err.cause.detail || "Error while trying to create blog."
         })
     }
 }
@@ -55,18 +55,23 @@ export const getAllBlogs = async (req: Request, res: Response) => {
             blogs: blogList
         })
     }
-    catch(err){
-        console.log(err);
+    catch(err: any){
+        console.log(err.cause);
         return res.status(500).json({
             success: false,
-            message: "Error while trying to retrieve all blogs"
+            message: err.cause.detail || "Error while trying to retrieve all blogs"
         })
     }
 }
 
 export const getBlog = async (req: Request, res: Response) => {
-    const { id } = req.params
-    const blogId = Number(id);
+    try{
+        const {id} = req.params
+        const blogId = Number(id);
 
-    const blog = await db.select().from(blogs).where(eq(blogs.id, blogId))
+        const blog = await db.select().from(blogs).where(eq(blogs.id, blogId))
+    }
+    catch(err: any){
+
+    }
 }

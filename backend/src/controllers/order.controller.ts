@@ -20,11 +20,11 @@ export const createOrder = async (req: Request, res: Response) => {
             order
         })
     }
-    catch(err){
+    catch(err: any){
         console.log("Error in createOrder endpoint:", err);
         res.status(500).json({
             success: false,
-            message: `Error while creating order ${req.params.businessName || ""}.`
+            message: err.cause.detail ||`Error while creating order ${req.params.businessName || ""}.`
         })
     }
 }

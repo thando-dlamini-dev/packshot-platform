@@ -1,6 +1,4 @@
 import {Request, Response, Router} from "express";
-import db from "../postgres.config"
-import blogs from "../db/schema/blogs"
 import {createBlog, getAllBlogs} from "../controllers/blog.controller";
 
 const router = Router();
