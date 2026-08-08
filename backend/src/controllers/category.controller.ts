@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import db from "../postgres.config"
 import categories from "../db/schema/categories";
 import { eq } from "drizzle-orm"
+import { DatabaseError } from "pg";
 
 export const getCategories = async (req: Request, res: Response) => {
     try{
@@ -14,11 +15,11 @@ export const getCategories = async (req: Request, res: Response) => {
             categories: activeCategories,
         })
     }
-    catch(err){
+    catch(err: any){
         console.log("Error in getCategories endpoint", err);
         res.status(500).json({
             success: false,
-            message: "Error while fetching categories.",
+            message: err.cause.details || "Error while fetching categories.",
         })
     }
 }
@@ -42,10 +43,10 @@ export const createCategory = async (req: Request, res: Response) => {
             message: `Category ${categoryName} created.`,
         })
     }
-    catch (err){
+    catch (err: any){
         res.status(500).json({
             success: false,
-            message: `Error while creating category: ${req.body.name}`,
+            message: err.cause.details ||  `Error while creating category: ${req.body.name}`,
         })
     }
 
@@ -71,10 +72,10 @@ export const updateCategory = async (req: Request, res: Response) => {
             message: `Category ${categoryName} updated successfully.`,
         })
     }
-    catch(err){
+    catch(err: any){
         res.status(500).json({
             success: false,
-            message: `Error while updating category: ${req.body.name}`,
+            message: err.cause.details ||  `Error while updating category: ${req.body.name}`,
         })
     }
 

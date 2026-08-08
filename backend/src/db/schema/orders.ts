@@ -45,11 +45,11 @@ export const statusLookup = {
 
 const orders = pgTable("orders", {
     orderId: uuid('order_id').notNull().unique().defaultRandom(),
-    userId: integer().notNull().unique().references(() => users.id),
+    userId: integer().notNull().references(() => users.id, {onDelete: "cascade"}),
     categoryId: integer("category_id").notNull().references(() => categories.id, { onDelete: "restrict" }),
     businessName: varchar("business_name", { length: 255 }).notNull(),
     status: statusEnum("status").default("submitted"),
-    price: doublePrecision("price_mm"),
+    price: doublePrecision("price"),
     ...timestamps
 })
 

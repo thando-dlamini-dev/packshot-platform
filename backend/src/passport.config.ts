@@ -5,6 +5,16 @@ import db from "./postgres.config";
 import { eq } from "drizzle-orm"
 import users from "./db/schema/users";
 
+export interface User {
+    id: number
+    googleId: string
+    email: string
+    userName: string | null
+    businessName: string | null
+    avatarUrl: string | null
+    role: string
+}
+
 passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID!,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -12,25 +22,22 @@ passport.use(new GoogleStrategy({
     },
     async (accessToken, refreshToken, profile, done) => {
         try{
-            let user = {
-                id: profile.id,
-                email: profile.emails?.[0]?.value || '',
-                displayName: profile.displayName,
-                accessToken,
-                refreshToken
-            };
+            let dbUser = await db.select({
+            }).from(users).where(eq(users.googleId, profile.id))
 
-            let dbUser = await db.select().from(users).where(eq(users.googleId, profile.id))
-            if(!dbUser){
-                await db.insert(users).values({
+            if(dbUser.length === 0){
+
+                const newUser = await db.insert(users).values({
                     googleId: profile.id,
                     email: profile.emails?.[0]?.value || "",
                     userName: profile.displayName,
                     avatarUrl: profile.photos?.[0].value || ""
-                })
+                }).returning()
+
+                return done(null, newUser[0] as User)
             }
 
-            return done(null, user)
+            return done(null, dbUser[0] as User)
         }
         catch (err) {
             console.log("Error in passport-google config", err)
@@ -46,10 +53,6 @@ const jwtOptions = {
 
 passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
     try {
-        // jwtPayload contains the decrypted user data you signed earlier (e.g., id, email)
-        // Optional: Fetch the full user from your database here if needed:
-        // const user = await User.findById(jwtPayload.id);
-
         if (jwtPayload) {
             return done(null, jwtPayload); // This populates req.user with the payload
         } else {

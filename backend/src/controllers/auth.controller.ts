@@ -30,6 +30,4 @@ export const jwtAuth = ( req: Request,  res: Response ) => {
         process.env.JWT_SECRET!,
         { expiresIn: "1h"}
     )
-
-
 }

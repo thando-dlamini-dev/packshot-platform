@@ -33,7 +33,7 @@ export const createBlog = async (req: Request, res: Response) => {
         console.log(err.detail);
         return res.status(500).json({
             success: false,
-            message: err.cause.detail || "Error while trying to create blog."
+            message: err.cause.details || "Error while trying to create blog."
         })
     }
 }
@@ -59,7 +59,7 @@ export const getAllBlogs = async (req: Request, res: Response) => {
         console.log(err.cause);
         return res.status(500).json({
             success: false,
-            message: err.cause.detail || "Error while trying to retrieve all blogs"
+            message: err.cause.details || "Error while trying to retrieve all blogs"
         })
     }
 }
