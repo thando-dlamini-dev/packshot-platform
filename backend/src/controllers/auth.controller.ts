@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-
 import passport from "passport";
+import { User } from "../passport.config";
+import jwt from "jsonwebtoken";
 
 export const googleAuth = passport.authenticate("google", {
     scope: ["profile, email"],
@@ -13,21 +13,13 @@ export const googleCallback = async (req: Request, res: Response) => {
         failureRedirect: `${process.env.FRONTEND_URL}/login`,
         session: false
     })
+    const user = req.user as User;
+    const token = jwt.sign(
+        user,
+        process.env.JWT_SECRET!,
+        { expiresIn: "7d"}
+    )
 
     //Redirect to home page after successful Login
-    res.redirect(`${process.env.FRONTEND_URL}`);
-}
-
-export const jwtAuth = ( req: Request,  res: Response ) => {
-    if (!req.user) {
-        return res.status(401).json({ message: "User context missing" });
-    }
-
-    const token = jwt.sign(
-        {
-            user: req.user,
-        },
-        process.env.JWT_SECRET!,
-        { expiresIn: "1h"}
-    )
+    res.json({ token }).redirect(`${process.env.FRONTEND_URL}`);
 }

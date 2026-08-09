@@ -5,7 +5,7 @@ import {googleAuth, googleCallback} from "../controllers/auth.controller";
 const router = Router();
 
 router.get("/google", authLimiter, googleAuth)
-router.get("/google/callback", googleCallback)
+router.get("/google/callback", authLimiter, googleCallback)
 
 
 export default router;

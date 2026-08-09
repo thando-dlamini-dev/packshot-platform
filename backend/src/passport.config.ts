@@ -54,7 +54,7 @@ const jwtOptions = {
 passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
     try {
         if (jwtPayload) {
-            return done(null, jwtPayload); // This populates req.user with the payload
+            return done(null, jwtPayload);
         } else {
             return done(null, false);
         }

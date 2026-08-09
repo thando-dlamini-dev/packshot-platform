@@ -8,7 +8,7 @@ import blogRoute from "./routes/blog.route";
 import authRoute from "./routes/auth.route";
 import orderRoute from "./routes/order.route";
 import categoryRoute from "./routes/category.route";
-
+import passport from "./passport.config";
 
 dotenv.config()
 
@@ -26,6 +26,9 @@ app.set('trust proxy', true);
 //Rate Limiting
 
 app.use(globalLimiter)
+
+app.use(passport.initialize());
+
 app.use((req, res, next) => {
     // express-rate-limit passes remaining requests in the headers
     const remaining = res.getHeader('RateLimit-Remaining');
@@ -36,6 +39,8 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+
 
 //Routes
 app.use('/api/users', userRoute)
