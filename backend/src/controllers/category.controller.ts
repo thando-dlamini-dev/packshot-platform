@@ -2,13 +2,21 @@ import { Request, Response } from 'express';
 import db from "../postgres.config"
 import categories from "../db/schema/categories";
 import { eq } from "drizzle-orm"
-import { DatabaseError } from "pg";
+import { User } from "../passport.config"
 
+
+//Returns all categories
 export const getCategories = async (req: Request, res: Response) => {
     try{
         const categoryList = await db.select().from(categories)
         const activeCategories = categoryList.filter((category) => category.isActive === true)
 
+        if(activeCategories.length === 0){
+            return res.status(404).json({
+                success: false,
+                message: "No categories found found."
+            })
+        }
         return res.status(200).json({
             success: true,
             message: "Categories fetched successfully.",
@@ -26,10 +34,10 @@ export const getCategories = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: Request, res: Response) => {
     try{
-        const { userRole } = req.params;
+        const { role } = req.user as User;
         const { name } = req.body;
 
-        if(userRole !== "admin") {
+        if(role !== "admin") {
             res.status(401).json({
                 success: false,
                 message: "Only admins can add a category.",
@@ -40,7 +48,7 @@ export const createCategory = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             success: true,
-            message: `Category ${categoryName} created.`,
+            message: `Category ${categoryName[0]} created.`,
         })
     }
     catch (err: any){
@@ -53,23 +61,24 @@ export const createCategory = async (req: Request, res: Response) => {
 
 }
 
-export const updateCategory = async (req: Request, res: Response) => {
+export const updateCategoryStatus = async (req: Request, res: Response) => {
     try{
-        const {userRole} = req.params;
-        const {name, isActive} = req.body ;
+        const { role } = req.user as User;
+        const { id } = req.params;
+        const { isActive } = req.body;
 
-        if (userRole !== "admin") {
+        if (role !== "admin") {
             res.status(401).json({
                 success: false,
                 message: "Only admins can update a category.",
             })
         }
 
-        const categoryName = await db.update(categories).set({isActive}).where(eq(categories.name, name)).returning({ name: categories.name })
+        const categoryName = await db.update(categories).set({isActive}).where(eq(categories.id, Number(id))).returning({ name: categories.name })
 
         return res.status(200).json({
             success: true,
-            message: `Category ${categoryName} updated successfully.`,
+            message: `Category ${categoryName[0]} updated successfully.`,
         })
     }
     catch(err: any){

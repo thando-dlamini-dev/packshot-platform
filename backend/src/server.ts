@@ -7,6 +7,7 @@ import { globalLimiter } from "./middleware/rateLimitMiddleware";
 import blogRoute from "./routes/blog.route";
 import authRoute from "./routes/auth.route";
 import orderRoute from "./routes/order.route";
+import categoryRoute from "./routes/category.route";
 
 
 dotenv.config()
@@ -41,6 +42,7 @@ app.use('/api/users', userRoute)
 app.use('/api/blogs', blogRoute)
 app.use('/api/auth', authRoute)
 app.use("/api/orders", orderRoute)
+app.use("/api/categories", categoryRoute)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
