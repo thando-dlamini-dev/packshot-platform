@@ -9,10 +9,10 @@ import { User } from "../passport.config"
 //
 export const createOrder = async (req: Request, res: Response) => {
     try{
-        const { userId } = req.params
+        const { id } = req.user as User
         const { categoryId, businessName } = req.body
 
-        // const userExists = await db.select().from(users).where(eq(users.id, Number(userId)))
+        // const userExists = await db.select().from(users).where(eq(users.id, Number(id)))
         //
         // if(!userExists){
         //     return res.status(400).json({
@@ -29,7 +29,7 @@ export const createOrder = async (req: Request, res: Response) => {
         }
 
         const order = await db.insert(orders).values({
-            userId: Number(userId),
+            userId: Number(id),
             businessName,
             categoryId: Number(categoryId),
         }).returning()
@@ -114,40 +114,6 @@ export const getOrderById = async (req: Request, res: Response) => {
     }
 }
 
-
-
-//Admin Only - Updates order status by order id
-export const updateOrderStatus = async (req: Request, res: Response) => {
-    try{
-        const { role } = req.params
-        const orderId = req.params.orderId as string;
-        const status = req.body.status;
-
-        if(role !== "admin"){
-            return res.status(401).json({
-                success: false,
-                message: "Only admins can update order status.",
-            })
-        }
-
-        const order = await db.update(orders).set({status}).where(eq(orders.orderId, orderId)).returning()
-
-        return res.status(200).json({
-            success: true,
-            message: "Order status updated successfully.",
-            updatedOrder: order[0]
-        })
-    }
-    catch (err: any){
-        console.log("Error in updateOrderStatus endpoint:", err.cause.details);
-        res.status(500).json({
-            success: false,
-            message: err.cause.details ||`Error while updating order status ${req.params.businessName || ""}.`
-        })
-    }
-}
-
-
 //Admin only - returns every order in the system regardless of who submitted it.
 export const getAllOrders = async (req: Request, res: Response) => {
     try{
@@ -176,6 +142,37 @@ export const getAllOrders = async (req: Request, res: Response) => {
         res.status(500).json({
             success: false,
             message: err.cause.details ||"Error while fetching all orders"
+        })
+    }
+}
+
+//Admin Only - Updates order status by order id
+export const updateOrderStatus = async (req: Request, res: Response) => {
+    try{
+        const { role } = req.user as User
+        const orderId = req.params.orderId as string;
+        const status = req.body.status;
+
+        if(role !== "admin"){
+            return res.status(401).json({
+                success: false,
+                message: "Only admins can update order status.",
+            })
+        }
+
+        const order = await db.update(orders).set({status}).where(eq(orders.orderId, orderId)).returning()
+
+        return res.status(200).json({
+            success: true,
+            message: "Order status updated successfully.",
+            updatedOrder: order[0]
+        })
+    }
+    catch (err: any){
+        console.log("Error in updateOrderStatus endpoint:", err.cause.details);
+        res.status(500).json({
+            success: false,
+            message: err.cause.details ||`Error while updating order status ${req.params.businessName || ""}.`
         })
     }
 }
