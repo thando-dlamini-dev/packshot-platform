@@ -39,8 +39,8 @@ passport.use(new GoogleStrategy({
 
             return done(null, dbUser[0] as User)
         }
-        catch (err) {
-            console.log("Error in passport-google config", err)
+        catch (err: any) {
+            console.log("Error in passport-google config: ", err.cause.details)
             return done(err)
         }
     }

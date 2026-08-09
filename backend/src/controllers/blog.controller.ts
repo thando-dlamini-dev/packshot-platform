@@ -3,6 +3,7 @@ import db from "../postgres.config";
 import blogs from "../db/schema/blogs";
 import { eq } from "drizzle-orm"
 import users from "../db/schema/users";
+import categories from "../db/schema/categories";
 
 export const createBlog = async (req: Request, res: Response) => {
     try{
@@ -17,20 +18,20 @@ export const createBlog = async (req: Request, res: Response) => {
             })
         }
 
-        await db.insert(blogs).values({
+        const blogTitle = await db.insert(blogs).values({
             title,
             slug,
             content,
             summary
-        })
+        }).returning({title})
 
         res.status(200).json({
             success: true,
-            message: "Successfully created blog"
+            message: `Successfully created blog ${blogTitle[0]}`
         })
     }
     catch(err: any){
-        console.log(err.detail);
+        console.log("Error in createBlog endpoint: ", err.cause.details);
         return res.status(500).json({
             success: false,
             message: err.cause.details || "Error while trying to create blog."
@@ -56,7 +57,7 @@ export const getAllBlogs = async (req: Request, res: Response) => {
         })
     }
     catch(err: any){
-        console.log(err.cause);
+        console.log("Error in getAllBlogs endpoint: ", err.cause.details);
         return res.status(500).json({
             success: false,
             message: err.cause.details || "Error while trying to retrieve all blogs"
@@ -64,14 +65,23 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     }
 }
 
-export const getBlog = async (req: Request, res: Response) => {
+export const deleteBlog = async (req: Request, res: Response) => {
     try{
-        const {id} = req.params
+        const { id } = req.params
         const blogId = Number(id);
 
-        const blog = await db.select().from(blogs).where(eq(blogs.id, blogId))
+        const blogTitle = await db.delete(blogs).where(eq(blogs.id, blogId)).returning({title: blogs.title});
+
+        return res.status(200).json({
+            success: true,
+            message: `Successfully deleted blog ${blogTitle[0]}`
+        })
     }
     catch(err: any){
-
+        console.log("Error in deleteBlog endpoint", err.cause.details);
+        return res.status(500).json({
+            success: false,
+            message: err.cause.details || "Error while trying to retrieve all blogs"
+        })
     }
 }

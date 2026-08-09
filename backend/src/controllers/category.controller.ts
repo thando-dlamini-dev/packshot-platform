@@ -34,15 +34,7 @@ export const getCategories = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: Request, res: Response) => {
     try{
-        const { role } = req.user as User;
         const { name } = req.body;
-
-        if(role !== "admin") {
-            res.status(401).json({
-                success: false,
-                message: "Only admins can add a category.",
-            })
-        }
 
         const categoryName = await db.insert(categories).values({name}).returning({ name: categories.name })
 
@@ -57,22 +49,12 @@ export const createCategory = async (req: Request, res: Response) => {
             message: err.cause.details ||  `Error while creating category: ${req.body.name}`,
         })
     }
-
-
 }
 
 export const updateCategoryStatus = async (req: Request, res: Response) => {
     try{
-        const { role } = req.user as User;
         const { id } = req.params;
         const { isActive } = req.body;
-
-        if (role !== "admin") {
-            res.status(401).json({
-                success: false,
-                message: "Only admins can update a category.",
-            })
-        }
 
         const categoryName = await db.update(categories).set({isActive}).where(eq(categories.id, Number(id))).returning({ name: categories.name })
 

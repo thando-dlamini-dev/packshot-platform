@@ -6,7 +6,7 @@ import users from "../db/schema/users";
 import { eq } from "drizzle-orm"
 import { User } from "../passport.config"
 
-//
+//Shop Owner - creates an order
 export const createOrder = async (req: Request, res: Response) => {
     try{
         const { id } = req.user as User
@@ -78,7 +78,7 @@ export const getUserOrders = async (req: Request, res: Response) => {
     }
 }
 
-//Customer - fetches a single order by orderId
+//Shop Owner - fetches a single order by orderId
 export const getOrderById = async (req: Request, res: Response) => {
     try{
         const orderId = req.params.orderId as string;
