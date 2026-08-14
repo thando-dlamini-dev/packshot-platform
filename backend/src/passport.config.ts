@@ -4,6 +4,9 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import db from "./postgres.config";
 import { eq } from "drizzle-orm"
 import users from "./db/schema/users";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export interface User {
     id: number
@@ -18,7 +21,7 @@ export interface User {
 passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID!,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        callbackURL: "/auth/google/callback"
+        callbackURL: `/api/auth/google/callback`
     },
     async (accessToken, refreshToken, profile, done) => {
         try{
