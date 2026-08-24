@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from "cors";
-import dotenv from "dotenv"
+import * as dotenv from "dotenv";
 import morgan from "morgan"
 import userRoute from "./routes/user.route"
 import { globalLimiter } from "./middleware/rateLimitMiddleware";
@@ -20,7 +20,7 @@ const app = express();
 app.use(morgan('dev'));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL}));
 app.set('trust proxy', true);
 
 //Rate Limiting

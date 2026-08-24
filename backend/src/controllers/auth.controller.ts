@@ -16,7 +16,7 @@ export const googleCallback = async (req: Request, res: Response, next: NextFunc
         session: false
     },
         (err, user: User) => {
-            console.log(`:Req User: ${user}\n JWT secret: ${process.env.JWT_SECRET}`);
+            console.log(`:Req User: ${JSON.stringify(user)}`);
 
             if (err || !user) {
                 console.log("Error in googleCallback endpoint", err);
@@ -31,7 +31,7 @@ export const googleCallback = async (req: Request, res: Response, next: NextFunc
                 { expiresIn: "7d" }
             )
 
-            res.json({token})
+            res.redirect(`${process.env.FRONTEND_URL}`)
         }
     )(req, res, next)
 }

@@ -1,6 +1,5 @@
 import {pgTable, uuid, pgEnum, integer, doublePrecision, varchar} from "drizzle-orm/pg-core";
 import {timestamps} from "../columns.helpers";
-import {serial} from "drizzle-orm/pg-core";
 import categories from "./categories";
 import users from "./users";
 
@@ -45,7 +44,7 @@ export const statusLookup = {
 
 const orders = pgTable("orders", {
     orderId: uuid('order_id').notNull().unique().defaultRandom(),
-    userId: integer().notNull().references(() => users.id, {onDelete: "cascade"}),
+    userId: uuid("user_id").notNull().references(() => users.id, {onDelete: "cascade"}),
     categoryId: integer("category_id").notNull().references(() => categories.id, { onDelete: "restrict" }),
     businessName: varchar("business_name", { length: 255 }).notNull(),
     status: statusEnum("status").default("submitted"),

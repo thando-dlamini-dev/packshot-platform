@@ -1,10 +1,10 @@
-import {pgEnum, pgTable, serial, varchar} from "drizzle-orm/pg-core"
+import {pgEnum, pgTable, uuid, varchar} from "drizzle-orm/pg-core"
 import { timestamps } from "../columns.helpers";
 
 export const roleEnum = pgEnum("role", ["customer", "admin", "tester"]);
 
 const users = pgTable("users", {
-    id: serial().primaryKey(),//database id
+    id: uuid("id").notNull().unique().defaultRandom(),//database id
 
     //Google  Oauth Identifiers
     googleId: varchar("google_id", { length: 255 }).notNull().unique(),
