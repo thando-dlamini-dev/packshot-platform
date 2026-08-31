@@ -2,12 +2,12 @@ import type { Request , Response , NextFunction } from "express";
 import db from '../postgres.config'
 import users from "../db/schema/users"
 import {eq} from "drizzle-orm";
+import {uuid} from "drizzle-orm/pg-core";
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const userId = Number(id)//convert id to number
-        const user = await db.select().from(users).where(eq(users.id, userId))
+        const user = await db.select().from(users).where(eq(users.id, id as string))
 
         //return error if user is not found
         if(!user){
@@ -48,8 +48,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
             message: "Successfully retrieved all users"
         })
     }
-    catch (error) {
-        console.log(error);
+    catch (error: any) {
+        console.log(error.cause.details);
         return res.status(500).json({
             success: false,
             error: "Error while trying to retrieve all users"
@@ -61,13 +61,12 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const getUserInfo = async (req: Request, res: Response) => {
     try {
         const { id }  = req.params;
-        const userId = Number(id);
         const user = await db.select({
             userName: users.userName,
             email: users.email,
             businessName: users.userName,
             avatarUrl: users.avatarUrl,
-        }).from(users).where(eq(users.id, userId))
+        }).from(users).where(eq(users.id, id as string))
 
         if(!user){
             return res.status(404).json({

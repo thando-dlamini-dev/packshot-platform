@@ -1,14 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Funnel+Display:wght@300..800&family=Geist+Mono:wght@100..900&family=Lexend:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://googleapis.com');
 @import "tailwindcss";
 
 @theme {
-  --animate-infinite-scroll: infinite-scroll 25s linear infinite;
-  @keyframes infinite-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
-  }
+  --font-poppins: "Poppins", sans-serif;
+  --font-geist: "Geist", sans-serif;
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-boldonse: "Boldonse", sans-serif;
+  --color-theme: #4EFF8C;
+  --color-background: #000000;
+  --color-text: #ffffff;
 }
+
 
 body{
   position: initial;
+  background-color: black;
 }
+
