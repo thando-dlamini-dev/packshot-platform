@@ -1,5 +1,3 @@
-import {CgFacebook, CgInstagram, CgTwitter, CgYoutube} from "react-icons/cg";
-import {BiLogoTiktok, BiPhone} from "react-icons/bi";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -103,8 +101,9 @@ const Footer = () => {
                     </div>))}
                 </div>
             </div>
-            <div className="w-full h-fit flex flex-row lg:justify-center lg:items-start text-white/50 my-10">
+            <div className="w-full h-fit flex flex-row lg:justify-center lg:items-start text-white/50 my-10 lg:px-20 gap-10">
                 <span>{`Copyright © VectorRay ${Date().split(' ')[3]}`}</span>
+                <Link to="/privacy">Privacy Policy</Link>
             </div>
         </section>
     )
