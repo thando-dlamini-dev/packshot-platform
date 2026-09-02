@@ -5,19 +5,38 @@ import deliverables from "../db/schema/deliverables";
 import users from "../db/schema/users";
 import { eq } from "drizzle-orm"
 import { User } from "../passport.config"
+import orderDetails from "../db/schema/orderDetails";
 
 //Shop Owner - creates an order
 export const createOrder = async (req: Request, res: Response) => {
     try{
         const { id } = req.user as User
-        const { categoryId, businessName } = req.body
+        const { categoryId, businessName, widthMm, heightMm, depthMm, referenceImages, artworkFiles, materialNotes } = req.body
 
-        if(!categoryId || !categoryId){
+        if(!categoryId || !businessName || !widthMm || !heightMm || !depthMm || referenceImages.length === 0 || artworkFiles.length === 0 || !materialNotes){
             return res.status(400).json({
                 success: false,
                 message: "Category ID or Business name is missing."
             })
         }
+
+        await db.transaction(async (tx) => {
+            const [order] = await tx.insert(orders).values({
+                userId: id,
+                businessName,
+                categoryId: Number(categoryId),
+            }).returning()
+
+            await tx.insert(orderDetails).values({
+                orderId: order.orderId,
+                widthMm,
+                heightMm,
+                depthMm,
+                referenceImages,
+                artworkFiles,
+                materialNotes
+            })
+        })
 
         const order = await db.insert(orders).values({
             userId: id,

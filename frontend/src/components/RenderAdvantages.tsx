@@ -38,8 +38,8 @@ const RenderAdvantages = () => {
     const [ hovered, setHovered ] = useState<string>("")
 
     return (
-        <section className="min-h-screen font-poppins px-20 lg:mt-30 flex flex-col items-start justify-center gap-20 lg:justify-start lg:items-start bg-background text-text">
-            <div className="lg:w-1/2 h-fit p-5 flex mb:50 flex-col items-start justify-between text-start">
+        <section className="h-fit font-poppins px-5 lg:px-20 lg:mt-30 flex flex-col items-start justify-center gap-20 lg:justify-start lg:items-start bg-background text-text">
+            <div className="lg:w-1/2 h-fit p-5 flex lg:mb-50 flex-col items-start justify-between text-start">
                 <h2 className="font-bold text-xl lg:text-6xl pb-10">
                     Why 3D rendering beats traditional photography
                 </h2>
@@ -49,7 +49,7 @@ const RenderAdvantages = () => {
                     3D rendering gives you studio quality without the studio, and a single model that pays for itself every time you need a new shot.
                 </p>
             </div>
-            <div className="w-full relative fit gap-5 flex items-center justify-between">
+            <div className="w-full relative h-fit gap-5 flex items-center justify-between">
                 {benefits.map((benefit, index) => (
                     <div key={index} className="w-1/4 text-text relative aspect-square overflow-hidden p-5 flex flex-col items-start justify-between">
                         <h1 className="z-10">{benefit.title}</h1>

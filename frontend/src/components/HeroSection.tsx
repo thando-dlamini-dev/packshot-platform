@@ -38,9 +38,9 @@ const HeroSection = () => {
     }, [cardItems.length]);
 
     return (
-        <section className="h-screen w-full text-white px-6 md:px-20 overflow-hidden bg-background flex mt-25 lg:pt-0 lg:flex-row items-center justify-center">
+        <section className="h-fit lg:h-screen text-white px-5 md:px-20 overflow-hidden bg-background flex mt-25 lg:pt-0 flex-row items-start lg:items-center justify-center">
             <div
-                className="relative font-poppins w-full h-full max-h-screen overflow-hidden rounded-lg flex items-center justify-between">
+                className="relative font-poppins w-full aspect-square lg:aspect-auto h-fit lg:h-full overflow-hidden rounded-lg flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     <motion.img
                         key={currentIndex}
