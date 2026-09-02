@@ -8,6 +8,7 @@ import blogRoute from "./routes/blog.route";
 import authRoute from "./routes/auth.route";
 import orderRoute from "./routes/order.route";
 import categoryRoute from "./routes/category.route";
+import discountRoute from "./routes/discount.route"
 import passport from "./passport.config";
 
 dotenv.config()
@@ -48,6 +49,7 @@ app.use('/api/blogs', blogRoute)
 app.use('/api/auth', authRoute)
 app.use("/api/orders", orderRoute)
 app.use("/api/categories", categoryRoute)
+app.use("/api/discounts", discountRoute)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

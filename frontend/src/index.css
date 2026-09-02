@@ -9,13 +9,14 @@
   --font-space: "Space Grotesk", sans-serif;
   --font-boldonse: "Boldonse", sans-serif;
   --color-theme: #4EFF8C;
-  --color-background: #000000;
+  --color-background: #151515;
   --color-text: #ffffff;
 }
 
 
 body{
   position: initial;
-  background-color: black;
+  background-color: var(--color-background);
+  display:
 }
 

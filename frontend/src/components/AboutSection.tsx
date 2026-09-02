@@ -2,11 +2,18 @@ import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slide
 
 const AboutSection = () => {
     return (
-        <section className="h-screen px-20 my-50 flex lg:flex-row flex-col items-center justify-between bg-background text-text">
-            <div className="h-full w-2/3 flex flex-col items-start justify-start">
-                <h2></h2>
+        <section className="min-h-screen px-20 pt-50 flex lg:flex-row flex-col items-start justify-start gap-20 lg:gap-0 lg:justify-between bg-background text-text">
+            <div className="h-full font-poppins w-full lg:w-1/3 lg:mr-20 flex flex-col items-start justify-start">
+                <h2 className="font-bold text-xl lg:text-6xl pb-10">
+                    High-end product imagery. Built without a studio.
+                </h2>
+                <p className="lg:text-lg">
+                    We build precise 3D models of your packaged products and render them into high-end images that build instant trust and convert browsers into buyers.
+
+                    Send us reference photos and we handle everything from modeling to final render, delivering multiple angles and backgrounds from a single submission.
+                </p>
             </div>
-            <div className="h-screen w-2/3 flex flex-col items-start justify-start py-20">
+            <div className="h-fit w-full lg:w-2/3 flex flex-col items-start justify-start">
                 <ReactCompareSlider
                     className="w-full h-2/3 rounded-xl"
                         itemOne={

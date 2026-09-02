@@ -86,11 +86,11 @@ const Footer = () => {
     ]
 
     return (
-        <section className="relative font-poppins h-fit bg-neutral-950 flex flex-col items-center justify-between pt-20 px-10 lg:px-20 mt-50">
+        <section className="relative font-poppins h-fit bg-[color-mix(in_srgb,var(--color-background)_80%,black)] flex flex-col items-center justify-between pt-20 px-10 lg:px-20 mt-50">
             <div className="w-full mb-10 h-fit flex flex-col lg:flex-row gap-10 items-start justify-between">
                 <div className="w-full lg:w-2/3 h-fit text-white flex fit items-center justify-start gap-5">
                     <img className="w-40 mr-1" src="/VectorRay-Logo1.png" alt=""/>
-                    <h1 className="font-bold text-[11rem] font-boldonse">VectorRay.</h1>
+                    <h1 className="font-bold text-6xl lg:text-[11rem] font-boldonse">VectorRay.</h1>
                 </div>
                 <div className="w-full lg:w-1/3 flex text-white h-fit flex-col lg:flex-row items-start justify-between">
                     {linkCategories.map((linkCat) => (<div className="w-full lg:w-1/3 h-fit flex flex-col items-start justify-start gap-5">

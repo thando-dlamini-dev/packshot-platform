@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export interface User {
-    id: number
+    id: string
     googleId: string
     email: string
     userName: string | null

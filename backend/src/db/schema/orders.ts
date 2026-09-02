@@ -13,8 +13,6 @@ export const statusEnum = pgEnum("status_enum", [
     "cancelled",
 ]);
 
-//submitted → in_review → quoted → accepted → in_progress → delivered
-
 export const statusLookup = {
     pending_payment: {
         label: "Pending Payment",

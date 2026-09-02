@@ -12,15 +12,6 @@ export const createOrder = async (req: Request, res: Response) => {
         const { id } = req.user as User
         const { categoryId, businessName } = req.body
 
-        // const userExists = await db.select().from(users).where(eq(users.id, Number(id)))
-        //
-        // if(!userExists){
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: "Invalid user ID"
-        //     })
-        // }
-
         if(!categoryId || !categoryId){
             return res.status(400).json({
                 success: false,
@@ -29,7 +20,7 @@ export const createOrder = async (req: Request, res: Response) => {
         }
 
         const order = await db.insert(orders).values({
-            userId: Number(id),
+            userId: id,
             businessName,
             categoryId: Number(categoryId),
         }).returning()
@@ -182,7 +173,7 @@ export const getOrderByUserId = async (req: Request, res: Response) => {
     try{
         const { googleId } = req.user as User;
 
-        const order = await db.select().from(orders).where(eq(orders.userId, Number(googleId)));
+        const order = await db.select().from(orders).where(eq(orders.userId, googleId));
 
         if(order.length === 0){
             return res.status(404).json({

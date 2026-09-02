@@ -56,19 +56,32 @@ const Navbar = () => {
 
     ]
 
-    const [ hovered, setHovered ] = useState<boolean>(true)
     const [ hoveredLink, setHoveredLink ] = useState<string>("")
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Sets true if scrolled down, false if at the very top
+            setIsScrolled(window.scrollY > 200);
+        };
+
+        // Listen for scroll events
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up event listener on unmount
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
-        <section className={`fixed font-poppins z-50 lg:px-20 top-0 left-0 w-full p-2 lg:h-22 ${navClosed ? "h-22" : "h-screen"} flex ${!navClosed ? "flex-col bg-background/100 backdrop-blur-md" : "flex-row bg-background"} items-center justify-between transition-all duration-300 ease-in-out`}>
+        <section className={`fixed w-screen font-poppins z-50 lg:px-20 top-0 left-0 p-2 lg:h-22 ${navClosed ? "h-22" : "h-screen"} flex ${!navClosed ? "flex-col bg-background/100 backdrop-blur-md" : "flex-row bg-background"} items-center justify-between transition-all duration-300 ease-in-out`}>
             <div className="w-fit h-fit flex items-center justify-start gap-10">
-                <Link onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(true)} onClick={() => setNavClosed(true)} to="/" className={`w-1/4 lg:w-fit ${!navClosed && "hidden"} lg:h-4/5 lg:flex justify-center gap-1 text-2xl text-text items-center`}>
+                <Link onClick={() => setNavClosed(true)} to="/" className={`w-1/4 lg:w-fit ${!navClosed && "hidden"} lg:h-4/5 lg:flex justify-center gap-1 text-2xl text-text items-center`}>
                     <img className="w-6 mr-1" src="/VectorRay-Logo1.png" alt=""/>
                     <h1 className="font-bold flex items-center justify-center">V<h1 className={`${expanded}`}>ector</h1>Ray.</h1>
                 </Link>
-                <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(true)} className="w-fit h-fit overflow-hidden">
+                <div className="w-fit h-fit overflow-hidden">
                     <div
-                        className={`${navClosed ? "hidden" : "flex"} ${hovered ? "w-100 opacity-100" : "w-100 -translate-x-full opacity-100"} overflow-hidden transition-all duration-500 ease-in-out  lg:flex h-full flex-col lg:flex-row items-center justify-center gap-5 text-text`}>
+                        className={`${navClosed ? "hidden" : "flex"} ${!isScrolled ? "w-100 opacity-100" : "w-100 -translate-x-full opacity-100"} overflow-hidden transition-all duration-500 ease-in-out  lg:flex h-full flex-col lg:flex-row items-center justify-center gap-5 text-text`}>
                         <div className="w-[1px] mr-5 h-8 bg-neutral-600"></div>
                         {links.map((link) =>
                             <div onMouseEnter={() => setHoveredLink(link.name)} onMouseLeave={() => setHoveredLink("")} key={link.name} className="w-fit pt-2 h-fit flex flex-col items-start justify-end gap-[1px] overflow-hidden">
